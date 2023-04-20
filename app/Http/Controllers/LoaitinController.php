@@ -13,7 +13,7 @@ class LoaitinController extends Controller
 {   
     public function getDanhSachLoaiTin()
     {
-        $loaitin = LoaiTin::all();
+        $loaitin = LoaiTin::paginate(10);
         return view("admin.loaitin.danhsach", compact("loaitin"));
     }
 

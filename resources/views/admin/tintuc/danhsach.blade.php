@@ -29,7 +29,7 @@
                         <td>{{$tt->TomTat}}</td>
                         <td>{{$tt->loaitin->Ten}}</td>
                         <td>{{$tt->SoLuotXem}}</td>
-                        <td>{{$tt->Noi$tt}}</td>
+                        <td>{{$tt->NoiBat}}</td>
                         <td class="center"><i class="fa fa-trash-o  fa-fw"></i><a href="{{route('xoa_tintuc',
                             $tt->id)}}">Xóa</a></td>
                         <td class="center"><i class="fa fa-pencil fa-fw"></i> <a href="{{route('sua_tintuc',

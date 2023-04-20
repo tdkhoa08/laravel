@@ -41,7 +41,7 @@
                     @endforeach
                 </tbody>
             </table>
-            
+            {{$loaitin->links()}}
         </div>
         <!-- /.row -->
     </div>

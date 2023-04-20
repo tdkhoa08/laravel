@@ -7,6 +7,7 @@ use App\Models\Lophoc;
 use App\Http\Controllers\Pagecontroller;
 use App\Http\Controllers\TheLoaiController;
 use App\Http\Controllers\loaitinController;
+use App\Http\Controllers\TintucController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
