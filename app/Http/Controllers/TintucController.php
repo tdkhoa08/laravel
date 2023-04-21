@@ -19,7 +19,7 @@ class TintucController extends Controller
     public function getThemTinTuc()
     {
         $loaitin = Loaitin::all();
-        $theloai = Theloai::all();
+        $theloai = Theloai::all();  
         return view("admin.tintuc.them", compact("loaitin", "theloai"));
     }
 
@@ -81,5 +81,13 @@ class TintucController extends Controller
         }
         $tt->save();
         return redirect("admin/tintuc/them")->with("thongbao", "Thêm tin tức thành công");
+    }
+
+    public function getSuaTinTuc()
+    {
+        $loaitin = Loaitin::all();
+        $thethoai = Theloai::all();
+        $tintuc = Tintuc::find($id);
+        return view("admin.tintuc.sua", compact("loaitin", "theloai", "tintuc"));
     }
 }

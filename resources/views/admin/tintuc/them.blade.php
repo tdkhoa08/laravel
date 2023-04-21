@@ -19,7 +19,7 @@
                     </div>
                 @else
                     @if(session('thongbao'))
-                        <div class="alert alert-danger">
+                        <div class="alert alert-success">
                            {{session('thongbao')}}
                         </div>
                     @endif
@@ -38,7 +38,7 @@
                         <label>Loại Tin</label>
                         <select class="form-control" name="loaitin" id="loaitin">
                             @foreach($loaitin as $lt)
-                                <option value="{{$lt->id}}">{{$loaitin->Ten}}</option>
+                                <option value="{{$lt->id}}">{{$lt->Ten}}</option>
                             @endforeach
                         </select>
                     </div>
