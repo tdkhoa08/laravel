@@ -7,6 +7,7 @@ use App\Models\Theloai;
 use App\Models\Tintuc;
 use App\Models\Comment;
 use App\Models\User;
+use App\Models\Loaitin;
 use Illuminate\Support\Facades\Auth;
 
 class Pagecontroller extends Controller

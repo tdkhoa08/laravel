@@ -71,9 +71,16 @@ class LoaitinController extends Controller
 
     public function getXoaLoaiTin($id)
     {
-        $tl = loaitin::find($id);
-        $tl->delete();
-        return redirect("admin/loaitin/danhsach")->with("thongbao", "Xóa thể loại thành công");
+        $lt = loaitin::find($id);
+        if(count($lt->tintuc)>0)
+        {
+            return redirect("admin/loaitin/danhsach")->with("thongbao", "Không xóa được thể loại này");
+        }
+        else
+        {
+            $lt->delete();
+            return redirect("admin/loaitin/danhsach")->with("thongbao", "Xóa thể loại thành công");
+        }
     }
     
 }

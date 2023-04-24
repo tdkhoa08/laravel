@@ -7,6 +7,7 @@ use App\Models\Loaitin;
 use App\Models\Comment;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Str;
 
 class TintucController extends Controller
 {
@@ -67,12 +68,12 @@ class TintucController extends Controller
             $ten = $file->getClientOriginalName();
             $name = Str::random(4);
             $name = $name."_".$ten;
-            while(file_exists("images/tintuc".$name))
+            while(file_exists("images".$name))
             {
                 $name = Str::random(4);
                 $name = $name."_".$ten;
             }
-            $file->move("images/tintuc", $name);
+            $file->move("images", $name);
             $tt->Hinh = $name;
         }
         else
@@ -83,11 +84,75 @@ class TintucController extends Controller
         return redirect("admin/tintuc/them")->with("thongbao", "Thêm tin tức thành công");
     }
 
-    public function getSuaTinTuc()
+    public function getSuaTinTuc($id)
     {
         $loaitin = Loaitin::all();
-        $thethoai = Theloai::all();
+        $theloai = Theloai::all();
         $tintuc = Tintuc::find($id);
         return view("admin.tintuc.sua", compact("loaitin", "theloai", "tintuc"));
+    }
+
+    public function postSuaTinTuc(Request $req, $id)
+    {
+        $val = $req->validate([
+            "loaitin" => "required",
+            "tieude" => "required|min:3",
+            "tomtat" => "required",
+            "noidung" => "required"
+        ],[
+            "loaitin.required" => "Bạn chưa chọn loại tin",
+            "tieude.required" => "Bạn chưa nhập tiêu đề",
+            "tieude.min" => "Tiêu đề phải có ít nhất 3 ký tự",
+            "tomtat.required" => "Bạn chưa nhập tóm tắt",
+            "tomtat.required" => "Bạn chưa nhập nội dung"
+        ]);
+        $tt = Tintuc::find($id);
+        $tt->Tieude = $val["tieude"];
+        $tt->TieuDeKhongDau = changeTitle($val["tieude"]);
+        $tt->idLoaitin = $val["loaitin"];
+        $tt->TomTat = $val["tomtat"];
+        $tt->NoiDung = $val["noidung"];
+        $tt->SoLoutXem = 0;
+        if ($req->hasFile("hinh"))
+        {
+            $file = $req->file("hinh");
+            $ext = $file->getClientOriginalExtension();
+            if ($ext != "jpg" && $ext != "png" && $ext != "jpeg")
+            {
+                return redirect("admin/tintuc/them")->with("loi", "Bạn chỉ được chọn file
+                hình có đuôi: .jpg, .png, .jpeg");
+            }
+            $ten = $file->getClientOriginalName();
+            $name = Str::random(4);
+            $name = $name."_".$ten;
+            while(file_exists("images".$name))
+            {
+                $name = Str::random(4);
+                $name = $name."_".$ten;
+            }
+            $file->move("images", $name);
+            $tt->Hinh = $name;
+        }
+        else
+        {
+            $tt->Hinh = "";
+        }
+        $tt->save();
+        return redirect("admin/tintuc/sua".$id)->with("thongbao", "Sửa tin tức thành công");
+    }
+    
+    public function getXoaTinTuc($id)
+    {
+        $tt = TinTuc::find($id);
+        if(count($tt->comment)>0)
+        {
+            return redirect("admin/tintuc/danhsach")->with("thongbao", "Không xóa được tin tức này");
+        }
+        else
+        {
+            $tt->delete();
+            return redirect("admin/tintuc/danhsach")->with("thongbao", "Xóa tin tức thành công");
+        }
+
     }
 }

@@ -8,6 +8,8 @@ use App\Http\Controllers\Pagecontroller;
 use App\Http\Controllers\TheLoaiController;
 use App\Http\Controllers\loaitinController;
 use App\Http\Controllers\TintucController;
+use App\Http\Controllers\AdminController;
+use App\Http\Middleware\AdminLogin;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -57,7 +59,7 @@ Route::get("/dangky", [Pagecontroller::class, "getDangKy"])->name("dangky");
 Route::post("/dangky", [Pagecontroller::class, "postDangKy"])->name("xulydangky");
 Route::get("/timkiem", [Pagecontroller::class, "getTimKiem"])->name("timkiem");
 
-Route::group(["prefix" => "admin"], function(){
+Route::group(["prefix" => "admin", "middleware" => "AdminLogin"], function(){
     Route::group(["prefix" => "/theloai"],function(){
         Route::get("/danhsach", [TheLoaiController::class, "getDanhSachTheLoai"])->name("ds_theloai");
         Route::get("them",[TheLoaiController::class, "getThemTheLoai"])->name("them_theloai");
@@ -89,4 +91,10 @@ Route::group(["prefix" => "admin"], function(){
         Route::get('loaitin/{idtl}', [TintucController::class, "getloaitin"]);
         });
 });
+
+Route::get("login",[AdminController::class, "getLogin"])->name("login");
+Route::post("login",[AdminController::class, "postLogin"])->name("login");
+Route::get("logout",[AdminController::class, "getLogout"])->name("logout");
+Route::get("profileuser", [AdminController::class, "getProfileUser"])->name("profile");
+    
 

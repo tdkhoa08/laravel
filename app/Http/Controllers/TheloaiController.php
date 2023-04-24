@@ -29,6 +29,11 @@ class TheloaiController extends Controller
         return redirect("admin/theloai/them")->with("thongbao", "Thêm mới thàng công");
     }
 
+    public function getThemTheLoai()
+    {
+        return view("admin.theloai.them");
+    }
+
     public function getSuaTheLoai($id)
     {
         $theloai = TheLoai::find($id);
@@ -55,8 +60,14 @@ class TheloaiController extends Controller
     public function getXoaTheLoai($id)
     {
         $tl = TheLoai::find($id);
-        $tl->delete();
-        return redirect("admin/theloai/danhsach")->with("thongbao", "Xoá thể loại thành
-        công");
+        if(count($tl->loaitin)>0)
+        {
+            return redirect("admin/theloai/danhsach")->with("thongbao", "Không xóa được thể loại này");
+        }
+        else
+        {
+            $tl->delete();
+            return redirect("admin/theloai/danhsach")->with("thongbao", "Xoá thể loại thành công");
+        }
     }
 }
